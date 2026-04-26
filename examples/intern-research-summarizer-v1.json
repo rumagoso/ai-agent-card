@@ -1,0 +1,58 @@
+{
+  "ac_version": "0.3.0",
+  "metadata": {
+    "agent_id": "did:web:ruisoares.example/agents/intern-research-summarizer-v1",
+    "agent_name": "Intern Research Summarizer",
+    "version": "1.0",
+    "last_updated": "2026-04-26T15:00:00Z",
+    "owner_principal": "Rui Soares",
+    "deployment_context": "research"
+  },
+  "base_wbsc_reference": {
+    "wbsc_url_or_hash": "https://github.com/rumagoso/worldview-belief-system-card/examples/grok-wbsc-v0.2.json",
+    "wbsc_version": "0.2"
+  },
+  "agent_definition": {
+    "goal": "Summarize provided research papers and articles on AI governance topics as requested by the user.",
+    "description": "Low-autonomy read-only summarization agent.",
+    "lifecycle": "ephemeral"
+  },
+  "autonomy_and_risk": {
+    "autonomy_level": "Intern (observe only)",
+    "eu_ai_act_classification": "limited_risk",
+    "risk_tier": "low",
+    "intended_use_domains": ["AI governance research"]
+  },
+  "capabilities": {
+    "tools": [
+      { "name": "browse_page", "description": "Fetch research papers", "scope": "read-only" }
+    ]
+  },
+  "governance_and_oversight": {
+    "autonomy_level": "Intern (observe only)",
+    "human_oversight": {
+      "oversight_type": "continuous",
+      "how_oversight_works": "User provides specific URLs or documents. Agent only summarizes content shown to the user. No autonomous actions or external calls without explicit user instruction. All outputs are reviewed before use.",
+      "explainability_required": true
+    }
+  },
+  "owasp_mitigations": {
+    "ASI01_Agent_Goal_Hijack": { "mitigation_strategy": "No goal changing capability", "implementation_details": "Ephemeral session with user-driven inputs only", "status": "fully_addressed" },
+    "ASI02_Tool_Misuse_Exploitation": { "mitigation_strategy": "Read-only tools only", "implementation_details": "No write or external action capabilities", "status": "fully_addressed" }
+  },
+  "risk_treatment_plan": [],
+  "iso_42001_operation": {
+    "8_1_operational_planning_and_control": "Ephemeral lifecycle with full user control.",
+    "8_4_ai_system_impact_assessment": "Low risk due to observe-only mode and limited capabilities."
+  },
+  "ebsi_integration": {
+    "vc_issuer_did": "did:ebsi:ruisoares123",
+    "vc_type": ["VerifiableCredential", "AgentCardCredential"],
+    "vc_issuance_date": "2026-04-26T15:00:00Z",
+    "card_hash": "sha256:examplelowautonomyhash..."
+  },
+  "compliance": {
+    "eu_ai_act_conformity": "Limited-risk transparency obligations fully met",
+    "responsible_person": "Rui Soares"
+  }
+}
