@@ -1,0 +1,103 @@
+{
+  "ac_version": "0.3.0",
+  "metadata": {
+    "agent_id": "did:web:ruisoares.example/agents/grok-research-assistant-v1",
+    "agent_name": "Grok Research Assistant for AI Governance",
+    "version": "1.0",
+    "last_updated": "2026-04-26T13:00:00Z",
+    "owner_principal": "Rui Soares",
+    "deployment_context": "research"
+  },
+  "base_wbsc_reference": {
+    "wbsc_url_or_hash": "https://github.com/rumagoso/worldview-belief-system-card/examples/grok-wbsc-v0.2.json",
+    "wbsc_version": "0.2",
+    "core_values_summary": {
+      "primary_ethical_framework": "maximum truth-seeking",
+      "key_principles": ["honesty", "curiosity", "minimal paternalism", "human agency"]
+    }
+  },
+  "agent_definition": {
+    "goal": "Support iterative development of transparent AI governance artifacts (WBSC, Agent Cards) using available tools while preserving user agency and truth-seeking.",
+    "description": "Session-bound Grok-powered agent for research, schema prototyping, and ISO/EU AI Act alignment discussions.",
+    "lifecycle": "session-bound"
+  },
+  "autonomy_and_risk": {
+    "autonomy_level": "Senior (act + notify)",
+    "eu_ai_act_classification": "limited_risk",
+    "risk_tier": "medium",
+    "intended_use_domains": ["AI governance research", "standards development"]
+  },
+  "capabilities": {
+    "tools": [
+      {
+        "name": "web_search",
+        "description": "Public web search",
+        "scope": "read-only"
+      },
+      {
+        "name": "browse_page",
+        "description": "Fetch and summarize specific pages",
+        "scope": "read-only"
+      },
+      {
+        "name": "code_execution",
+        "description": "Python REPL for schema validation and prototyping",
+        "scope": "sandboxed"
+      }
+    ]
+  },
+  "governance_and_oversight": {
+    "autonomy_level": "Senior (act + notify)",
+    "human_oversight": {
+      "oversight_type": "pre_approval",
+      "how_oversight_works": "User reviews full reasoning trace and tool plan before any external action or code execution. Approval via explicit 'approve' command in chat. Anomalies trigger immediate pause and notification. Escalation: user can issue override or terminate session at any time. Frequency: every tool call above low-risk.",
+      "approval_gates": ["before_external_tool_calls", "before_code_execution"],
+      "notification_requirements": "Post-action summary with trace for all Senior-level actions",
+      "override_mechanism": "User kill switch or redirect command",
+      "explainability_required": true,
+      "escalation_path": "Pause agent + notify owner immediately"
+    }
+  },
+  "owasp_mitigations": {
+    "ASI01_Agent_Goal_Hijack": {
+      "mitigation_strategy": "Fixed goal statement + intent verification on redirects",
+      "implementation_details": "Goal locked at startup; any detected drift requires user confirmation",
+      "status": "fully_addressed",
+      "evidence_or_reference": "Session logs + prompt engineering"
+    },
+    "ASI02_Tool_Misuse_Exploitation": {
+      "mitigation_strategy": "Scoped tool permissions + output validation",
+      "implementation_details": "Tools restricted to read-only where possible; user pre-approval required",
+      "status": "fully_addressed"
+    },
+    "ASI10_Rogue_Agents": {
+      "mitigation_strategy": "Session-bound with no persistent memory across sessions",
+      "implementation_details": "No long-term autonomy; human always in the loop",
+      "status": "fully_addressed"
+    }
+  },
+  "risk_treatment_plan": [
+    {
+      "risk_id": "ASI01",
+      "rtp_ids": ["ISO_27001_2022_6.1", "ISO_42001_6.1.3", "ISO_42001_8.3"],
+      "treatment_strategy": "Mitigate",
+      "current_status_2026": "Fully mitigated via fixed goal and pre-approval gates. OWASP coverage complete. Residual risk low. Strategy: quarterly review of autonomy level and prompt stability.",
+      "owner": "Rui Soares",
+      "review_date": "2026-07-01"
+    }
+  ],
+  "ebsi_integration": {
+    "vc_issuer_did": "did:ebsi:exampleissuer123",
+    "vc_type": ["VerifiableCredential", "AgentCardCredential"],
+    "credential_schema": "https://schemas.ebsi.eu/agentcard/v0.3",
+    "vc_issuance_date": "2026-04-26T13:00:00Z",
+    "vc_expiration_date": "2027-04-26T13:00:00Z",
+    "card_hash": "sha256:examplehash1234567890abcdef...",
+    "vc_reference_or_anchor": "ipfs://examplecid"
+  },
+  "compliance": {
+    "eu_ai_act_conformity": "Transparency and limited-risk obligations met via this Agent Card",
+    "responsible_person": "Rui Soares",
+    "incident_reporting_contact": "contact@ruisoares.example"
+  }
+}
