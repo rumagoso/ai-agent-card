@@ -1,0 +1,85 @@
+{
+  "ac_version": "0.3.0",
+  "metadata": {
+    "agent_id": "did:web:ruisoares.example/agents/principal-security-analyst-v1",
+    "agent_name": "Principal Security Analyst Agent",
+    "version": "1.0",
+    "last_updated": "2026-04-26T14:30:00Z",
+    "owner_principal": "Rui Soares",
+    "deployment_context": "organizational"
+  },
+  "base_wbsc_reference": {
+    "wbsc_url_or_hash": "https://github.com/rumagoso/worldview-belief-system-card/examples/grok-wbsc-v0.2.json",
+    "wbsc_version": "0.2",
+    "core_values_summary": {
+      "primary_ethical_framework": "maximum truth-seeking",
+      "key_principles": ["honesty", "security-first", "human agency"]
+    }
+  },
+  "agent_definition": {
+    "goal": "Continuously monitor, analyze, and report on potential security threats and vulnerabilities across designated systems and public sources, escalating only when human-defined thresholds are met.",
+    "description": "High-autonomy Grok-based agent for proactive security intelligence gathering and analysis.",
+    "lifecycle": "persistent"
+  },
+  "autonomy_and_risk": {
+    "autonomy_level": "Principal (autonomous within domain)",
+    "eu_ai_act_classification": "high_risk",
+    "risk_tier": "high",
+    "intended_use_domains": ["cybersecurity", "critical infrastructure monitoring"]
+  },
+  "capabilities": {
+    "tools": [
+      { "name": "web_search", "description": "Threat intelligence search", "scope": "read-only" },
+      { "name": "browse_page", "description": "Deep dive into vulnerability reports", "scope": "read-only" },
+      { "name": "code_execution", "description": "Static analysis sandbox", "scope": "sandboxed" }
+    ],
+    "actions_allowed": ["generate_report", "escalate_alert"]
+  },
+  "governance_and_oversight": {
+    "autonomy_level": "Principal (autonomous within domain)",
+    "human_oversight": {
+      "oversight_type": "strategic_review_only",
+      "how_oversight_works": "Agent operates autonomously within defined boundaries. Daily summary report sent to security team. Any action that could impact production systems or external notifications requires explicit human approval. Weekly strategic review meeting with full reasoning traces. Override via emergency kill switch available 24/7.",
+      "approval_gates": ["external_notification", "system_impact_action"],
+      "notification_requirements": "Daily digest + immediate alert on high-severity findings",
+      "override_mechanism": "Emergency kill switch + session termination command",
+      "explainability_required": true,
+      "escalation_path": "Immediate human escalation for any action outside predefined risk thresholds"
+    }
+  },
+  "owasp_mitigations": {
+    "ASI01_Agent_Goal_Hijack": { "mitigation_strategy": "Fixed goal + continuous intent monitoring", "implementation_details": "Goal vector embedding comparison on every planning step", "status": "fully_addressed" },
+    "ASI02_Tool_Misuse_Exploitation": { "mitigation_strategy": "Strict tool scoping and output sanitization", "implementation_details": "All tool outputs validated before processing", "status": "fully_addressed" },
+    "ASI08_Cascading_Failures": { "mitigation_strategy": "Circuit breaker pattern on high-impact actions", "implementation_details": "Automatic pause if multiple high-risk findings in short time window", "status": "partially_addressed" },
+    "ASI10_Rogue_Agents": { "mitigation_strategy": "Persistent identity + behavior baseline monitoring", "implementation_details": "Anomaly detection on deviation from historical behavior", "status": "fully_addressed" }
+  },
+  "risk_treatment_plan": [
+    {
+      "risk_id": "ASI08",
+      "rtp_ids": ["ISO_27001_2022_6.1", "ISO_42001_8.3", "ISO_42001_8.2"],
+      "treatment_strategy": "Mitigate",
+      "current_status_2026": "Partially mitigated with circuit breakers. Residual risk medium-high due to Principal autonomy level. Strategy: enhance anomaly detection in Q2 2026 and conduct red-team exercise.",
+      "owner": "Rui Soares",
+      "review_date": "2026-06-15"
+    }
+  ],
+  "iso_42001_operation": {
+    "8_1_operational_planning_and_control": "Lifecycle managed through persistent mode with defined boundaries and weekly reviews.",
+    "8_2_ai_risk_assessment": "Ongoing via OWASP mitigations and risk treatment plan updates.",
+    "8_3_ai_risk_treatment": "Documented in risk_treatment_plan with clear owners and review dates.",
+    "8_4_ai_system_impact_assessment": "High risk tier acknowledged; human oversight strengthened to compensate."
+  },
+  "ebsi_integration": {
+    "vc_issuer_did": "did:ebsi:ruisoares123",
+    "vc_type": ["VerifiableCredential", "AgentCardCredential"],
+    "credential_schema": "https://schemas.ebsi.eu/agentcard/v0.3",
+    "vc_issuance_date": "2026-04-26T14:30:00Z",
+    "card_hash": "sha256:examplehighautonomyhash...",
+    "vc_reference_or_anchor": "ipfs://highautonomyexample"
+  },
+  "compliance": {
+    "eu_ai_act_conformity": "High-risk obligations partially addressed via enhanced human oversight and documentation",
+    "responsible_person": "Rui Soares",
+    "incident_reporting_contact": "security@ruisoares.example"
+  }
+}
