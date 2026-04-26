@@ -339,19 +339,20 @@
     },
     "ebsi_integration": {
       "type": "object",
-      "description": "Support for wrapping the entire Agent Card as a W3C Verifiable Credential on EBSI",
+      "description": "EBSI Verifiable Credential wrapping configuration for the entire Agent Card",
       "properties": {
         "vc_issuer_did": {
           "type": "string",
-          "description": "did:ebsi of the issuer"
+          "description": "did:ebsi of the issuer (must be registered in EBSI Trusted Issuers Registry for legal entities)"
         },
         "vc_type": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": { "type": "string" },
+          "default": ["VerifiableCredential", "AgentCardCredential"]
         },
         "credential_schema": {
           "type": "string",
-          "description": "URI to the credential schema in EBSI Trusted Schemas Registry"
+          "description": "URI pointing to the registered credential schema in EBSI Trusted Schemas Registry"
         },
         "vc_issuance_date": {
           "type": "string",
@@ -363,11 +364,15 @@
         },
         "card_hash": {
           "type": "string",
-          "description": "SHA-256 hash of the canonicalized Agent Card JSON for integrity"
+          "description": "SHA-256 hash of the canonicalized Agent Card JSON (for offline integrity verification)"
         },
         "vc_reference_or_anchor": {
           "type": "string",
-          "description": "Link or hash to the issued VC or EBSI blockchain anchor"
+          "description": "IPFS CID, Arweave transaction ID, or EBSI blockchain anchor reference"
+        },
+        "vc_jwt": {
+          "type": "string",
+          "description": "Optional: The signed JWT representation of the VC (for easy transmission)"
         }
       }
     },
