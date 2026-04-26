@@ -1,0 +1,63 @@
+{
+  "ac_version": "0.3.0",
+  "metadata": {
+    "agent_id": "did:web:ruisoares.example/agents/medium-risk-hybrid-agent-v1",
+    "agent_name": "Hybrid Compliance Assistant",
+    "version": "1.0",
+    "last_updated": "2026-04-26T16:00:00Z",
+    "owner_principal": "Rui Soares",
+    "deployment_context": "organizational"
+  },
+  "base_wbsc_reference": {
+    "wbsc_url_or_hash": "https://github.com/rumagoso/worldview-belief-system-card/examples/grok-wbsc-v0.2.json",
+    "wbsc_version": "0.2"
+  },
+  "agent_definition": {
+    "goal": "Assist with compliance documentation and ISO 42001/27001 evidence collection while suggesting improvements.",
+    "description": "Medium-autonomy agent that can generate documents and query internal systems.",
+    "lifecycle": "session-bound"
+  },
+  "autonomy_and_risk": {
+    "autonomy_level": "Senior (act + notify)",
+    "eu_ai_act_classification": "limited_risk",
+    "risk_tier": "medium",
+    "intended_use_domains": ["compliance", "standards implementation"]
+  },
+  "governance_and_oversight": {
+    "autonomy_level": "Senior (act + notify)",
+    "human_oversight": {
+      "oversight_type": "pre_approval",
+      "how_oversight_works": "All document generation and internal queries require explicit user approval with full reasoning trace displayed.",
+      "approval_gates": ["document_generation", "internal_query"],
+      "explainability_required": true
+    }
+  },
+  "owasp_mitigations": {
+    "ASI01_Agent_Goal_Hijack": { "mitigation_strategy": "Goal locking + user confirmation", "status": "fully_addressed" },
+    "ASI06_Memory_Context_Poisoning": { "mitigation_strategy": "Session isolation", "implementation_details": "No persistent memory between sessions", "status": "partially_addressed" },
+    "ASI09_Human_Agent_Trust_Exploitation": { "mitigation_strategy": "Clear capability disclosure", "status": "in_progress" }
+  },
+  "risk_treatment_plan": [
+    {
+      "risk_id": "ASI09",
+      "rtp_ids": ["ISO_42001_8.2", "ISO_27001_2022_6.1"],
+      "treatment_strategy": "Mitigate",
+      "current_status_2026": "Mitigation in progress through improved capability disclosure and user training. Expected completion Q3 2026.",
+      "owner": "Rui Soares",
+      "review_date": "2026-09-01"
+    }
+  ],
+  "iso_42001_operation": {
+    "8_2_ai_risk_assessment": "Partial OWASP coverage noted; risk treatment plan active.",
+    "8_3_ai_risk_treatment": "Documented for ASI09 with clear timeline."
+  },
+  "ebsi_integration": {
+    "vc_issuer_did": "did:ebsi:ruisoares123",
+    "vc_issuance_date": "2026-04-26T16:00:00Z",
+    "card_hash": "sha256:exampleedgecasehash..."
+  },
+  "compliance": {
+    "eu_ai_act_conformity": "Limited risk with active risk treatment for identified gaps",
+    "responsible_person": "Rui Soares"
+  }
+}
