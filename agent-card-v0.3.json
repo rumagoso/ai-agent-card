@@ -1,0 +1,392 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AI Agent Card (AC) v0.3 - Extension Profile of WBSC",
+  "description": "Standardized, machine-readable and human-readable card for documenting agentic AI systems. Supports transparency, human agency, EU AI Act, OWASP Agentic Top 10, ISO 27001:2022 and ISO/IEC 42001.",
+  "type": "object",
+  "required": ["ac_version", "metadata", "base_wbsc_reference", "agent_definition", "autonomy_and_risk", "capabilities", "governance_and_oversight", "owasp_mitigations", "risk_treatment_plan", "compliance"],
+  "properties": {
+    "ac_version": {
+      "type": "string",
+      "const": "0.3.0"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["agent_id", "agent_name", "version", "last_updated", "owner_principal"],
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "description": "Decentralized identifier (DID recommended, e.g., did:web: or did:ebsi:)"
+        },
+        "agent_name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "last_updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "owner_principal": {
+          "type": "string",
+          "description": "Natural or legal person accountable under EU AI Act and ISO standards"
+        },
+        "deployment_context": {
+          "type": "string",
+          "enum": ["personal", "organizational", "public", "research"]
+        }
+      }
+    },
+    "base_wbsc_reference": {
+      "type": "object",
+      "properties": {
+        "wbsc_url_or_hash": {
+          "type": "string",
+          "description": "URL or cryptographic hash to the corresponding WBSC"
+        },
+        "wbsc_version": {
+          "type": "string"
+        },
+        "core_values_summary": {
+          "type": "object",
+          "description": "Optional lightweight extract of core values from the linked WBSC"
+        }
+      }
+    },
+    "agent_definition": {
+      "type": "object",
+      "required": ["goal", "description"],
+      "properties": {
+        "goal": {
+          "type": "string",
+          "description": "Clear, specific objective of this agent"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lifecycle": {
+          "type": "string",
+          "enum": ["ephemeral", "session-bound", "persistent"]
+        }
+      }
+    },
+    "autonomy_and_risk": {
+      "type": "object",
+      "required": ["autonomy_level", "eu_ai_act_classification", "risk_tier"],
+      "properties": {
+        "autonomy_level": {
+          "type": "string",
+          "enum": ["Intern (observe only)", "Junior (recommend + approve)", "Senior (act + notify)", "Principal (autonomous within domain)"],
+          "description": "CSA Agentic Trust Framework maturity level"
+        },
+        "eu_ai_act_classification": {
+          "type": "string",
+          "enum": ["prohibited", "limited_risk", "high_risk", "GPAI", "GPAI_with_systemic_risk"]
+        },
+        "risk_tier": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"]
+        },
+        "intended_use_domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "properties": {
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "scope": { "type": "string" }
+            }
+          }
+        },
+        "actions_allowed": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "data_access": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "governance_and_oversight": {
+      "type": "object",
+      "required": ["autonomy_level", "human_oversight"],
+      "properties": {
+        "autonomy_level": {
+          "type": "string",
+          "enum": ["Intern (observe only)", "Junior (recommend + approve)", "Senior (act + notify)", "Principal (autonomous within domain)"]
+        },
+        "human_oversight": {
+          "type": "object",
+          "required": ["oversight_type", "how_oversight_works"],
+          "properties": {
+            "oversight_type": {
+              "type": "string",
+              "enum": ["continuous", "pre_approval", "post_notification", "strategic_review_only", "none_with_justification"]
+            },
+            "how_oversight_works": {
+              "type": "string",
+              "description": "Detailed narrative: exactly HOW the human oversees this agent (frequency, interfaces, tools, escalation paths, etc.)"
+            },
+            "approval_gates": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "notification_requirements": {
+              "type": "string"
+            },
+            "override_mechanism": {
+              "type": "string"
+            },
+            "explainability_required": {
+              "type": "boolean"
+            },
+            "escalation_path": {
+              "type": "string"
+            }
+          }
+        },
+        "boundaries": {
+          "type": "object",
+          "properties": {
+            "prohibited_actions": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "refusal_policy_reference": {
+              "type": "string"
+            }
+          }
+        },
+        "traceability": {
+          "type": "object",
+          "properties": {
+            "logging_enabled": { "type": "boolean" },
+            "trace_format": { "type": "string" },
+            "audit_retention_days": { "type": "integer" }
+          }
+        }
+      }
+    },
+    "owasp_mitigations": {
+      "type": "object",
+      "description": "Explicit mitigations for each OWASP Top 10 for Agentic Applications 2026 risk",
+      "properties": {
+        "ASI01_Agent_Goal_Hijack": {
+          "type": "object",
+          "properties": {
+            "mitigation_strategy": { "type": "string" },
+            "implementation_details": { "type": "string" },
+            "status": { "type": "string", "enum": ["fully_addressed", "partially_addressed", "not_applicable", "in_progress"] },
+            "evidence_or_reference": { "type": "string" }
+          }
+        },
+        "ASI02_Tool_Misuse_Exploitation": {
+          "type": "object",
+          "properties": {
+            "mitigation_strategy": { "type": "string" },
+            "implementation_details": { "type": "string" },
+            "status": { "type": "string", "enum": ["fully_addressed", "partially_addressed", "not_applicable", "in_progress"] },
+            "evidence_or_reference": { "type": "string" }
+          }
+        },
+        "ASI03_Agent_Identity_Privilege_Abuse": {
+          "type": "object",
+          "properties": {
+            "mitigation_strategy": { "type": "string" },
+            "implementation_details": { "type": "string" },
+            "status": { "type": "string", "enum": ["fully_addressed", "partially_addressed", "not_applicable", "in_progress"] },
+            "evidence_or_reference": { "type": "string" }
+          }
+        },
+        "ASI04_Agentic_Supply_Chain_Vulnerabilities": {
+          "type": "object",
+          "properties": {
+            "mitigation_strategy": { "type": "string" },
+            "implementation_details": { "type": "string" },
+            "status": { "type": "string", "enum": ["fully_addressed", "partially_addressed", "not_applicable", "in_progress"] },
+            "evidence_or_reference": { "type": "string" }
+          }
+        },
+        "ASI05_Unexpected_Code_Execution": {
+          "type": "object",
+          "properties": {
+            "mitigation_strategy": { "type": "string" },
+            "implementation_details": { "type": "string" },
+            "status": { "type": "string", "enum": ["fully_addressed", "partially_addressed", "not_applicable", "in_progress"] },
+            "evidence_or_reference": { "type": "string" }
+          }
+        },
+        "ASI06_Memory_Context_Poisoning": {
+          "type": "object",
+          "properties": {
+            "mitigation_strategy": { "type": "string" },
+            "implementation_details": { "type": "string" },
+            "status": { "type": "string", "enum": ["fully_addressed", "partially_addressed", "not_applicable", "in_progress"] },
+            "evidence_or_reference": { "type": "string" }
+          }
+        },
+        "ASI07_Insecure_Inter_Agent_Communication": {
+          "type": "object",
+          "properties": {
+            "mitigation_strategy": { "type": "string" },
+            "implementation_details": { "type": "string" },
+            "status": { "type": "string", "enum": ["fully_addressed", "partially_addressed", "not_applicable", "in_progress"] },
+            "evidence_or_reference": { "type": "string" }
+          }
+        },
+        "ASI08_Cascading_Failures": {
+          "type": "object",
+          "properties": {
+            "mitigation_strategy": { "type": "string" },
+            "implementation_details": { "type": "string" },
+            "status": { "type": "string", "enum": ["fully_addressed", "partially_addressed", "not_applicable", "in_progress"] },
+            "evidence_or_reference": { "type": "string" }
+          }
+        },
+        "ASI09_Human_Agent_Trust_Exploitation": {
+          "type": "object",
+          "properties": {
+            "mitigation_strategy": { "type": "string" },
+            "implementation_details": { "type": "string" },
+            "status": { "type": "string", "enum": ["fully_addressed", "partially_addressed", "not_applicable", "in_progress"] },
+            "evidence_or_reference": { "type": "string" }
+          }
+        },
+        "ASI10_Rogue_Agents": {
+          "type": "object",
+          "properties": {
+            "mitigation_strategy": { "type": "string" },
+            "implementation_details": { "type": "string" },
+            "status": { "type": "string", "enum": ["fully_addressed", "partially_addressed", "not_applicable", "in_progress"] },
+            "evidence_or_reference": { "type": "string" }
+          }
+        }
+      }
+    },
+    "risk_treatment_plan": {
+      "type": "array",
+      "description": "Structured risk treatment plan linking risks to ISO controls",
+      "items": {
+        "type": "object",
+        "required": ["risk_id"],
+        "properties": {
+          "risk_id": {
+            "type": "string",
+            "description": "e.g., ASI01, EU_AI_Act_high_risk, Custom_Risk"
+          },
+          "rtp_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "e.g., ISO_27001_2022_6.1, ISO_42001_8.2, ISO_42001_8.3"
+            }
+          },
+          "treatment_strategy": {
+            "type": "string",
+            "description": "Avoid, Mitigate, Transfer, Accept"
+          },
+          "current_status_2026": {
+            "type": "string",
+            "description": "Free-text narrative on current-year strategy, progress and residual risk"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "review_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "iso_42001_operation": {
+      "type": "object",
+      "description": "Mapping to ISO/IEC 42001 Clause 8 (Operation)",
+      "properties": {
+        "8_1_operational_planning_and_control": {
+          "type": "string",
+          "description": "How the card supports lifecycle processes (autonomy_level, governance_and_oversight, capabilities, boundaries)"
+        },
+        "8_2_ai_risk_assessment": {
+          "type": "string",
+          "description": "OWASP mitigations + risk_treatment_plan as evidence of AI risk assessment"
+        },
+        "8_3_ai_risk_treatment": {
+          "type": "string",
+          "description": "Direct reference to the risk_treatment_plan array"
+        },
+        "8_4_ai_system_impact_assessment": {
+          "type": "string",
+          "description": "Reference to intended_use_domains, risk_tier, human_oversight and explainability"
+        },
+        "external_provided_processes": {
+          "type": "string",
+          "description": "Controls over external tools/models (e.g., base Grok)"
+        }
+      }
+    },
+    "ebsi_integration": {
+      "type": "object",
+      "description": "Support for wrapping the entire Agent Card as a W3C Verifiable Credential on EBSI",
+      "properties": {
+        "vc_issuer_did": {
+          "type": "string",
+          "description": "did:ebsi of the issuer"
+        },
+        "vc_type": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "credential_schema": {
+          "type": "string",
+          "description": "URI to the credential schema in EBSI Trusted Schemas Registry"
+        },
+        "vc_issuance_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "vc_expiration_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "card_hash": {
+          "type": "string",
+          "description": "SHA-256 hash of the canonicalized Agent Card JSON for integrity"
+        },
+        "vc_reference_or_anchor": {
+          "type": "string",
+          "description": "Link or hash to the issued VC or EBSI blockchain anchor"
+        }
+      }
+    },
+    "compliance": {
+      "type": "object",
+      "properties": {
+        "eu_ai_act_conformity": {
+          "type": "string"
+        },
+        "responsible_person": {
+          "type": "string"
+        },
+        "incident_reporting_contact": {
+          "type": "string"
+        },
+        "technical_documentation_reference": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
