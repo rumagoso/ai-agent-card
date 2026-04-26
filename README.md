@@ -2,6 +2,10 @@
 
 **Making agentic AI transparent, auditable and controllable — one card at a time.**
 
+[![Version](https://img.shields.io/badge/version-0.3--draft-blue.svg)](https://github.com/ruisoares/ai-agent-card/releases/tag/v0.3-draft)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![JSON Schema](https://img.shields.io/badge/schema-JSON%20Schema-4B8BBE.svg)](https://json-schema.org/)
+
 A standardized, machine-readable and human-readable card for documenting agentic AI systems.  
 Designed for transparency, human agency, regulatory compliance (EU AI Act), security (OWASP Agentic Top 10), and governance frameworks (ISO 27001:2022 + ISO/IEC 42001).
 
